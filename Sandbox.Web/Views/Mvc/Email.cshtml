@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Contact Us";
+}
+
+<h2>Contact Us</h2>
+<form id="editForm" method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" class="form-control" name="name" placeholder="Name">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" class="form-control" name="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="website">Website</label>
+        <input id="website" type="text" class="form-control" name="website" placeholder="Website">
+    </div>
+    <div class="form-group">
+        <label>Message</label>
+        <input id="message" type="text" class="form-control" name="message" placeholder="Message">
+    </div>
+    <button type="submit" class="btn btn-primary cmdSend">Send</button>
+</form>
+
+@section scripts{
+    <script>
+
+        // Global namespace for app
+        var entrotech = { page: {} };
+
+        $('document').ready(function () {
+            $("#cmdSend").on("click", entrotech.page.send);
+           
+            //entrotech.page.initializeValidation();
+
+        });
+
+        entrotech.page.send = function (evt) {
+            var url = "/api/testcenter/people";
+            var myData = $("#editForm").serialize();
+
+            var settings = {
+                cache: false
+                , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+                , data: myData
+                , dataType: "json"
+                , success: entrotech.page.sendSuccess
+                , error: sabio.page.ajaxError
+                , type: "POST"
+            };
+
+            $.ajax(url, settings);
+        };
+
+        sabio.page.sendSuccess = function (data) {
+            alert("Message Sent!");
+        }
+
+        sabio.page.sendError = function (jqXHR) {
+            alert(jsXHR.responseText);
+        }
+
+    </script>
+    }

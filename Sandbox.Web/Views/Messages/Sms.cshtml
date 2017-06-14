@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "SMS";
+}
+
+<h2>Send Text Message</h2>
+<form id="editForm" method="post">
+    <div class="form-group">
+        <label for="name">To Number:</label>
+        <input id="name" type="text" class="form-control" name="toNumber" placeholder="Name">
+    </div>
+    <div class="form-group">
+        <label>Message</label>
+        <input id="message" type="text" class="form-control" name="message" placeholder="Message">
+    </div>
+    <button type="button" class="btn btn-primary cmdSend">Send</button>
+</form>
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        darragh.page.startUp = function () {
+            $('.cmdSend').on('click', darragh.page.handlers.onSend);
+
+            darragh.page.initializeValidation();
+        }
+
+        darragh.page.handlers.onSend = function (evt) {
+            evt.preventDefault();
+            darragh.page.send();
+        }
+
+        darragh.page.initializeValidation = function () {
+            jQuery.validator.setDefaults({
+                debug: true
+            });
+            $('#editForm').validate({
+                rules: {
+                    "toNumber": { required: true },
+                    "message": { required: true },
+                },
+                messages: {
+                    "toNumber": { required: "Phone Number is required." },
+                    "message": { required: "You need to supply a message." },
+                }
+            });
+        };
+
+
+        darragh.page.send = function () {
+            if ($('#editForm').valid()) {
+                var data = $("#editForm").serialize();
+                var url = '/api/sms';
+
+                var settings = {
+                    type: 'POST',
+                    success: darragh.page.onSendSuccess,
+                    error: darragh.page.onSendError,
+                    dataType: 'json',
+                    cache: false,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data
+                };
+
+                $.ajax(url, settings);
+            }
+        }
+
+        darragh.page.onSendSuccess = function (data) {
+            toastr.info('Text message sent');
+        }
+
+        darragh.page.onSendError = function (jqXHR) {
+            toastr.error(jqXHR.responseText ,'Transmission failed');
+        }
+
+    </script>
+
+
+}
+
+
+
+
+

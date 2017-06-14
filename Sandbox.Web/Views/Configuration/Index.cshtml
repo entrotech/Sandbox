@@ -1,0 +1,46 @@
+﻿@model Sandbox.Web.Models.ViewModels.BaseViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Configuration Parameters</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Environment</td>
+            <td>@Model.Environment</td>
+        </tr>
+        <tr>
+            <td>Base URL</td>
+            <td>@Model.BaseUrl</td>
+        </tr>
+        <tr>
+            <td>Domain</td>
+            <td>@Model.SiteDomain</td>
+        </tr>
+        <tr>
+            <td>Site Admin Email</td>
+            <td>@Model.SiteAdminEmailAddress</td>
+        </tr>
+        <tr>
+            <td>Brand Name</td>
+            <td>@Model.BrandName</td>
+        </tr>
+        <tr>
+            <td>Brand Logo</td>
+            <td><img src="@Model.BrandLogo" /></td>
+        </tr>
+        <tr>
+            <td>AWS Prefix</td>
+            <td>@Model.AwsPrefix</td>
+        </tr>
+    </tbody>
+</table>
+

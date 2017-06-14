@@ -1,0 +1,243 @@
+﻿
+<div class="row">
+    <div data-ng-controller="pogController as pogsVm">
+        <div class="well well-sm">
+            <h4>Features</h4>
+            <ul>
+                <li>Uses server-side filtering, sorting, pagination</li>
+                <li>Uses filter to format telephone number</li>
+                <li>Uses angular-moment-picker to edit datetime as UTC Moment or Local DateTime.</li>
+            </ul>
+        </div>
+        <div class="col-md-6" style="padding: 10px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="h4">Pog List</span>
+                    <button id="addItem" class="btn btn-primary btn-xs pull-right" ng-click="pogsVm.add()">Add New Pog</button>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Name</label>
+                            <input type="text" placeholder="Pog Name" ng-model="pogsVm.searchText" />
+                            <button type="button" class="btn-sm btn-primary pull-right" ng-click="pogsVm.onSearchClick()"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 clearfix">
+                            <ul uib-pagination ng-model="pogsVm.currentPage" items-per-page="pogsVm.itemsPerPage"
+                                total-items="pogsVm.totalItems" max-size="pogsVm.maxPaginationButtons"
+                                boundary-link="true" ng-change="pogsVm.pageChanged()"
+                                class="col-md-8"></ul>
+                            <div class="col-md-4 m-t-sm">
+                                <select ng-model="pogsVm.itemsPerPage" ng-change="pogsVm.pageChanged()" style="margin-top: 28px;">
+                                    <option value="3">3</option>
+                                    <option value="6">6</option>
+                                    <option value="9">9</option>
+                                    <option value="12">12</option>
+                                    <option value="15">15</option>
+                                    <option value="18">18</option>
+                                    <option value="24">24</option>
+                                    <option value="144">144</option>
+                                </select>
+                                <span>/ page</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div ng-repeat="pog in pogsVm.items" class="col-xs-12">
+
+                            <div class="well well-sm">
+                                <div>
+                                    <div class="m-b-none m-t-sm pull-right">
+                                        <a href="" class="btn btn-sm btn-outline btn-default" ng-click="pogsVm.edit(pog)" data-id="0">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                    </div>
+                                    <a href="javascript:;" class="product-name pog-edit" ng-click="pogsVm.edit(pog)"> {{pog.name}}</a>
+                                    <div><i class="fa fa-envelope fa-fw"></i><span class="m-l-sm text-muted">{{pog.email}}</span></div>
+                                    <div><i class="fa fa-phone fa-fw"></i><span class="m-l-sm text-muted">{{pog.phone | tel}}</span></div>
+                                    <div><i class="fa fa-clock-o fa-fw"></i>UTC: <span>{{pog.whenInstant}}</span></div>
+                                    @*<div><i class="fa fa-calendar-o fa-fw"></i>Local: <span>{{pog.whenLocalDateTime}}</span></div>
+                                        <div><i class="fa fa-calendar-o fa-fw"></i>DT Offset: <span>{{pog.whenDateTimeOffset}}</span></div>
+                                        <div class="row">
+                                            <div class="small m-t-xs col-md-6">{{pog.description}}</div>
+
+
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6" style="padding: 10px;" ng-if="pogsVm.selectedItem">
+            <div class="panel panel-default">
+                <div class="panel-heading">Create / Edit Pog</div>
+                <div class="panel-body col-md-12">
+                    <div>
+                        <form role="form" id="editForm" name='pogsVm.editForm' ng-submit="pogsVm.cancelChanges()" novalidate>
+                            <div class="form-group" id="first">
+                                <label>Name:</label>
+                                <input type="text"
+                                       class="form-control ng-class:{'error': pogsVm.showEditFormErrors && !pogsVm.editForm.name.$valid}"
+                                       name="name" ng-model="pogsVm.selectedItem.name"
+                                       ng-maxlength="100"
+                                       required>
+                                <div class="help-inline error">
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.name.$error.required">Name is required</span>
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.name.$error.maxlength">Too long! Name must be 100 characters or less</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <input type="text"
+                                       name="description"
+                                       ng-model="pogsVm.selectedItem.description"
+                                       class="form-control ng-class:{'error': pogsVm.showEditFormErrors && !pogsVm.editForm.description.$valid}"
+                                       maxlength="500"
+                                       required>
+                                <div class="help-inline error">
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.name.$error.required">Description is required</span>
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.name.$error.maxlength">Too long! Description must be 100 characters or less</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="text" id="email" name="email" ng-model="pogsVm.selectedItem.email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone:</label>
+                                <input type="text" id="phone" data-mask="(999) 999-9999" name="phone" ng-model="pogsVm.selectedItem.phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Instant (Saved as UTC, displayed Local Time):</label>
+                                <div class="input-group">
+                                    <input class="form-control"
+                                           name="whenInstant"
+                                           ng-model="pogsVm.selectedItem.whenInstantMoment"
+                                           moment-picker="pogsVm.selectedItem.whenInstantMoment"
+                                           ng-model-options="{ updateOn: 'blur' }"
+                                           placeholder="Select a date..."
+                                           ng-required>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+
+                                </div>
+                                <div class="help-inline error">
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.whenInstant.$error.required">UTC datetime is required</span>
+                                    <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.whenInstant.$error.pattern">Must be a valid date in the form mm/dd/yyyy</span>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                    <label>UTC:</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                               name="whenInstant"
+                                               uib-datepicker-popup="{{pogsVm.dateFormat}}"
+                                               datepicker-options="pogsVm.datePickerOptions"
+                                               ng-model="pogsVm.selectedItem.whenInstantJs"
+                                               is-open="pogsVm.whenInstantPopupOpened"
+                                               class="form-control ng-class:{'error': pogsVm.showEditFormErrors && !pogsVm.editForm.whenInstant.$valid}"
+                                               ng-required />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="form-control btn btn-default m-t-none" ng-click="pogsVm.openWhenInstantPopup()">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                        <div uib-timepicker ng-model="pogsVm.selectedItem.whenInstantJs"
+                                             show-spinners="false"
+                                             style="display:inline-block;"
+                                             class="form-control m-l-xs"></div>
+                                    </div>
+                                    <div class="help-inline error">
+                                        <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.whenInstant.$error.required">UTC datetime is required</span>
+                                        <span class="error" ng-show="pogsVm.showEditFormErrors && pogsVm.editForm.whenInstant.$error.pattern">Must be a valid date in the form mm/dd/yyyy</span>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <label>Local:</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="whenLocalDateTime" name="whenLocalDateTime"
+                                           ng-model="pogsVm.selectedItem.whenLocalDateTimeMoment"
+                                           ng-model-options="{updateOn: 'blur'}"
+                                           moment-picker="pogsVm.selectedItem.whenLocalDateTimeMoment"
+                                           placeholder="Select a date...">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            @*<div moment-picker="pogsVm.selectedItem.whenLocalDateTime">{{pogsVm.selectedItem.whenLocalDateTime}}</div>*@
+                            <div class="form-group">
+                                <label>DateTime Offset:</label>
+                                <div class="input-group">
+                                    <input type="text" id="whenDateTimeOffset" name="whenDateTimeOffset" ng-model="pogsVm.selectedItem.whenDateTimeOffset" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group btn-group pull-right">
+                                <button class="btn btn-default" type="submit"><strong>Cancel</strong></button>
+                                <button class="btn btn-primary" type="submit" ng-click="pogsVm.saveChanges()"><strong>Save</strong></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section styles{
+
+    <link href="~/Scripts/ng/toastr/angular-toastr.css" rel="stylesheet" />
+    <link href="~/Scripts/ng/angular-moment-picker/angular-moment-picker.css" rel="stylesheet" />
+}
+
+<script>
+    var APPNAME = 'darraghApp';
+</script>
+
+@section pageInitScripts{
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/darragh.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/angular-toastr.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+    <script src="~/Scripts/ng/angular-moment-picker/angular-moment-picker.js"></script>
+    <script>
+        darragh.moduleOptions.extraModuleDependencies.push('moment-picker');
+    </script>
+    <script src="~/Scripts/darragh/darragh.module.js"></script>
+
+
+}
+
+@section scripts{
+    <script src="~/Scripts/app/filters/tel.js"></script>
+    <script src="~/Scripts/darragh.services.pog.js"></script>
+
+    @*Angular scripts*@
+    <script src="~/Scripts/app/pog/pog.service.js"></script>
+    <script src="~/Scripts/app/pog/pog.controller.js"></script>
+    <script src="~/Scripts/app/controllers/pog.js"></script>
+
+}
+

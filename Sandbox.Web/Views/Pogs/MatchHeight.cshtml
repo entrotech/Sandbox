@@ -1,0 +1,193 @@
+﻿@*
+    When there are multiple panels in the same row with different heights, the layout gets
+    all screwed up.  In this view, we try to force all panels within an ng-repeat to have the
+    same height - or better yet, all panels in the same row to have the same height.
+*@
+
+<div class="row">
+    <div data-ng-controller="pogController as pogsVm">
+        <div style="padding: 10px;">
+            <div class="">
+
+                <span class="h2">Pog List</span>
+
+                <div class="well well-sm">
+                    <h4>Features</h4>
+                    <ul>
+                        <li>Uses client-side pagination with custom angular paginate directive.</li>
+                        <li>Attempt to match heights of the panels displaying results.</li>
+                    </ul>
+                </div>
+                <hr />
+                <div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Name</label>
+                            <input type="text" placeholder="Pog Name" ng-model="pogsVm.searchText" />
+                            <button type="button" class="btn-sm btn-primary pull-right" ng-click="pogsVm.onSearchClick()"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 clearfix">
+                            <ul uib-pagination ng-model="pogsVm.currentPage" items-per-page="pogsVm.itemsPerPage"
+                                total-items="pogsVm.totalItems" max-size="pogsVm.maxPaginationButtons"
+                                boundary-link="true" ng-change="pogsVm.pageChanged()"
+                                class="col-md-8"></ul>
+                            <div class="col-md-4 m-t-sm">
+                                <select ng-model="pogsVm.itemsPerPage" style="margin-top: 28px;">
+                                    <option value="3">3</option>
+                                    <option value="6">6</option>
+                                    <option value="9">9</option>
+                                    <option value="12">12</option>
+                                    <option value="15">15</option>
+                                    <option value="18">18</option>
+                                    <option value="24">24</option>
+                                    <option value="144">144</option>
+                                </select>
+                                <span>/ page</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" vertilize-container>
+                        <div ng-repeat="pog in pogsVm.items | paginate : pogsVm.currentPage : pogsVm.itemsPerPage" class="col-md-4">
+
+                            <div>
+                                <div class="panel panel-default" vertilize>
+                                    <div class="panel-heading">
+                                        <h5 class="panel-heading"> {{pog.name}}</h5>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div><i class="fa fa-envelope fa-fw"></i><span class="m-l-sm text-muted">{{pog.email}}</span></div>
+                                        <div><i class="fa fa-phone fa-fw"></i><span class="m-l-sm text-muted">{{pog.phone}}</span></div>
+                                        <div><i class="fa fa-clock-o fa-fw"></i>UTC: <span>{{pog.whenInstant}}</span></div>
+                                        <div><i class="fa fa-calendar-o fa-fw"></i>DT Offset: <span>{{pog.whenDateTimeOffset}}</span></div>
+                                        <div class="small">{{pog.description}}</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section styles{
+
+    <link href="~/Scripts/ng/toastr/angular-toastr.css" rel="stylesheet" />
+    <link href="~/Scripts/ng/angular-moment-picker/angular-moment-picker.css" rel="stylesheet" />
+}
+
+<script>
+    var APPNAME = 'darraghApp';
+</script>
+
+@section pageInitScripts{
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/darragh.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/angular-toastr.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+    <script src="~/Scripts/ng/angular-moment-picker/angular-moment-picker.js"></script>
+    <script>
+        darragh.moduleOptions.extraModuleDependencies.push('moment-picker');
+    </script>
+
+    <script src="~/Scripts/angular-vertilize.js"></script>
+    <script>
+        darragh.moduleOptions.extraModuleDependencies.push('angular.vertilize');
+    </script>
+
+    <script src="~/Scripts/darragh/darragh.module.js"></script>
+
+
+}
+
+@section scripts{
+    <script src="~/Scripts/app/filters/paginate.js"></script>
+    <script src="~/Scripts/darragh.services.pog.js"></script>
+    <script src="~/Scripts/app/pog/pog.service.js"></script>
+
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('pogController', PogController);
+
+            PogController.$inject = ['$scope', '$window', 
+                'pogService'];
+
+            function PogController(
+                $scope
+                , $window
+                , pogService
+                ) {
+
+                var vm = this;
+                vm.pogService = pogService;
+                vm.$scope = $scope;
+                vm.$window = $window;
+
+                // View Model - Properties
+                vm.currentPage = 1;
+                vm.itemsPerPage = "3";
+                vm.maxPaginationButtons = 5;
+                vm.totalItems = 1;
+
+                vm.searchText = '';
+
+                vm.items = null;
+                vm.onSearchClick = _onSearchClick;
+
+                render();
+
+                function render() {
+                    _onSearchClick();
+                }
+
+                function _onSearchClick() {
+                    vm.currentPage = 1;
+                    _search();
+                }
+
+                function _search() {
+                    vm.pogService.search(vm.searchText, vm.fromInstant, vm.toInstant,
+                        1, 1000000,
+                        _onGetAllSuccess, _onGetAllError);
+                }
+
+                function _onGetAllSuccess(data) {
+                    //this receives the data and calls the special
+                    //notify method that will trigger ng to refresh UI
+                    vm.$scope.$apply(function () {
+                        vm.items = data.items;
+                        vm.totalItems = data.totalItems;
+                    });
+                }
+
+                function _onGetAllError(jqXhr, error) {
+                    vm.$window.alert(jqXHR.responseText);
+                    //vm.$alertService.error(jqXHR.responseText);
+                }
+
+            }
+        })();
+    </script>
+
+}
+

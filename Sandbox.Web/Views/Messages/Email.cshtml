@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Email";
+}
+
+<h2>Contact Us</h2>
+<form id="editForm" method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" class="form-control" name="name" placeholder="Name">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" class="form-control" name="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="website">Website</label>
+        <input id="website" type="text" class="form-control" name="website" placeholder="Website">
+    </div>
+    <div class="form-group">
+        <label>Message</label>
+        <input id="message" type="text" class="form-control" name="message" placeholder="Message">
+    </div>
+    <button type="button" class="btn btn-primary cmdSend">Send</button>
+</form>
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        darragh.page.startUp = function () {
+            $('.cmdSend').on('click', darragh.page.handlers.onSend);
+
+            darragh.page.initializeValidation();
+        }
+
+        darragh.page.handlers.onSend = function (evt) {
+            evt.preventDefault();
+            darragh.page.send();
+        }
+
+        darragh.page.initializeValidation = function () {
+            jQuery.validator.setDefaults({
+                debug: true
+            });
+            $('#editForm').validate({
+                rules: {
+                    "name": { required: true, maxlength: 100 },
+                    "email": { required: true },
+                    "message": { required: true },
+                },
+                messages: {
+                    "name": { required: "Your name is required.", maxLength: "The application can only accept names less than 100 characters long" },
+                    "email": { required: "Your email address is required.", rangelength: "The code must be 3 characters long." },
+                    "message": { required: "You need to supply a message." },
+                }
+            });
+        };
+
+
+        darragh.page.send = function () {
+            if ($('#editForm').valid()) {
+                var data = $("#editForm").serialize();
+                var url = '/api/emails';
+
+                var settings = {
+                    type: 'POST',
+                    success: darragh.page.onSendSuccess,
+                    error: darragh.page.onSendError,
+                    dataType: 'json',
+                    cache: false,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data
+                };
+
+                $.ajax(url, settings);
+            }
+        }
+
+        darragh.page.onSendSuccess = function (data) {
+            toastr.info('Email sent');
+        }
+
+        darragh.page.onSendError = function (jqXHR) {
+            toastr.error(jqXHR.responseText ,'Transmission failed');
+        }
+
+    </script>
+
+
+}
+

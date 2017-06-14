@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "MatchHeight - jQuery";
+}
+
+<h2>MatchHeight</h2>
+
+<div id="results" class="col=md-6">
+
+</div>
+
+<div id="editPanel" class="col=md-6">
+
+</div>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-2.2.4.js"></script>
+    <script src="~/Scripts/jquery.matchHeight.js"></script>
+    <script src="~/Scripts/darragh.services.pog.js"></script>
+
+    <script id="pog-template" type="text/template">
+        <div class="col-md-4">
+            <div class="panel panel-default pog-panel">
+                <div class="panel-heading">
+                    <h4 class="product-name pog-edit pog-name"></h4>
+                </div>
+                <div class="panel-body">
+
+                    <div><i class="fa fa-envelope fa-fw"></i><span class="m-l-sm text-muted pog-email"></span></div>
+                    <div><i class="fa fa-phone fa-fw"></i><span class="m-l-sm text-muted pog-phone"></span></div>
+                    <div><i class="fa fa-clock-o fa-fw"></i>UTC: <span class="pog-when-instant"></span></div>
+                    <div><i class="fa fa-calendar-o fa-fw"></i>Local: <span class="pog-when-local-date-time"></span></div>
+                    <div class="pog-description"></div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script>
+        // Create a namespace object for application-specific
+        // properties and functions.
+        var darraghApp = {
+            layoutStartUp: null,
+            pageStartUp: null,
+            page: {},
+            services: {}
+        };
+
+        darraghApp.layoutStartUp = function () {
+            if (darraghApp.pageStartUp) {
+                darraghApp.pageStartUp();
+            }
+        };
+
+        $(document).ready(darraghApp.layoutStartUp);
+
+        // Initialize the page
+        darraghApp.pageStartUp = function () {
+            darragh.services.pog.getAll(darraghApp.page.onGetAllSuccess,
+                darraghApp.page.onGetAllError);
+            
+
+        };
+
+        darraghApp.page.onGetAllSuccess = function (data) {
+            if (data && data.items) {
+                for (var i = 0; i < data.items.length; i++) {
+                    var item = data.items[i];
+                    $('#results').append(darraghApp.page.renderPog(item));
+                }
+            }
+
+            $('.pog-panel').matchHeight();
+        }
+
+        darraghApp.page.renderPog = function (pog) {
+            var newElement = $($('#pog-template').html()).clone();
+            newElement.find('.pog-name').text(pog.name);
+            newElement.find('.pog-email').text(pog.email);
+            newElement.find('.pog-phone').text(pog.phone);
+            newElement.find('.pog-when-instant').text(pog.whenInstant);
+            newElement.find('.pog-when-local-date-time').text(pog.whenLocalDateTime);
+            newElement.find('.pog-description').text(pog.description);
+            return newElement
+        }
+
+        darraghApp.page.onGetAllError = function (jqXHR) {
+            alert("Error: " + jqXHR.responseText);
+        }
+
+
+    </script>
+
+}
+
+
+
+

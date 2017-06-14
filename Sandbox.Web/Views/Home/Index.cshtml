@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Sandbox.Web.Data.Pog>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section styles{
+    
+    }
+<table class="table table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <td>Phone</td>
+            <td>Email</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Sandbox.Web.Data.Pog p in @Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@p.Phone</td>
+                <td>@p.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    
+    
+    }

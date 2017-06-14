@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Web", "Sandbox.Web\Sandbox.Web.csproj", "{834B26CF-82C5-4DD4-ABC5-C88E599C0402}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Data", "Sabio.Data\Sabio.Data.csproj", "{7BFBD749-B5D2-4E4A-8591-320E8E579BF6}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{834B26CF-82C5-4DD4-ABC5-C88E599C0402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834B26CF-82C5-4DD4-ABC5-C88E599C0402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834B26CF-82C5-4DD4-ABC5-C88E599C0402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834B26CF-82C5-4DD4-ABC5-C88E599C0402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFBD749-B5D2-4E4A-8591-320E8E579BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFBD749-B5D2-4E4A-8591-320E8E579BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFBD749-B5D2-4E4A-8591-320E8E579BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFBD749-B5D2-4E4A-8591-320E8E579BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

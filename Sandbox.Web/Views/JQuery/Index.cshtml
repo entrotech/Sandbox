@@ -1,0 +1,80 @@
+﻿
+@{
+
+}
+
+<h2>
+    Pogs Index (jQuery)
+</h2>
+<div id="results" class="col=md-6">
+
+</div>
+<div id="editPanel" class="col=md-6">
+
+</div>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-2.2.4.js"></script>
+    <script src="~/Scripts/darragh.services.pog.js"></script>
+    <script>
+        // Create a namespace object for application-specific
+        // properties and functions.
+        var darraghApp = {
+            layoutStartUp: null,
+            pageStartUp: null,
+            page: {},
+            services: {}
+        };
+
+        darraghApp.layoutStartUp = function () {
+            if (darraghApp.pageStartUp) {
+                darraghApp.pageStartUp();
+            }
+        };
+
+        $(document).ready(darraghApp.layoutStartUp);
+
+        // Initialize the page
+        darraghApp.pageStartUp = function () {
+            darragh.services.pog.getAll(darraghApp.page.onGetAllSuccess,
+                darraghApp.page.onGetAllError);
+            $('#results').on('click', 'a', darraghApp.page.onEditClick);
+
+        };
+
+        darraghApp.page.onGetAllSuccess = function (data) {
+            if (data && data.items) {
+                for (var i = 0; i < data.items.length; i++) {
+                    var item = data.items[i];
+                    $('#results').append("<div><a href='/jquery/pogs" + item.id + "/edit' tag='" + item.id + "' >" + item.name + "</a></div>")
+                }
+            }
+        }
+
+        darraghApp.page.onGetAllError = function (jqXHR) {
+            alert("Error: " + jqXHR.responseText);
+        }
+
+        darraghApp.page.onEditClick = function (evt) {
+            evt.preventDefault();
+            var id = $(this).attr('tag');
+            darragh.services.pog.getById(id,
+                darraghApp.page.onGetByIdSuccess,
+                darraghApp.page.onGetByIdError);
+        }
+
+        darraghApp.page.onGetByIdSuccess = function (data) {
+            if (data && data.item) {
+                alert("Got pog " + data.item.name);
+            }
+        }
+
+        darraghApp.page.onGetByIdError = function (jqXHR) {
+            alert("Error: " + jqXHR.responseText);
+        }
+
+
+    </script>
+
+}

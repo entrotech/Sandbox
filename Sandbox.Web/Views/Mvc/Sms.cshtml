@@ -1,0 +1,17 @@
+﻿@model Sandbox.Web.Models.Requests.SmsPostRequest
+@{
+    ViewBag.Title = "Sms";
+}
+
+<h2>Send Text Message to Site Admin</h2>
+<form method="post">
+    <div class="form-group">
+        <label>Message</label>
+        <input id="message" type="text" class="form-control" name="message" placeholder="Message" 
+             
+               title="Contents of the Text Message">
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+
