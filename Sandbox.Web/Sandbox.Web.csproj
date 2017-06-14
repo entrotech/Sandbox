@@ -1253,8 +1253,6 @@
     <Content Include="Scripts\select.min.js.map" />
     <Content Include="Views\JQuery\Index.cshtml" />
     <Content Include="Views\Maps\Index.cshtml" />
-    <Content Include="Views\Pogs\Toad.cshtml" />
-    <Content Include="Views\Pogs\Frog.cshtml" />
     <Content Include="Views\Maps\Udemy.cshtml" />
     <Content Include="Views\Rets\Index.cshtml" />
     <Content Include="Views\Messages\Email.cshtml" />

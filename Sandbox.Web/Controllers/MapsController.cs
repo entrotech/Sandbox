@@ -11,6 +11,7 @@ namespace Sandbox.Web.Controllers
         // GET: Maps
         public ActionResult Index()
         {
+            ViewBag.GoogleMapsAPI = System.Configuration.ConfigurationManager.AppSettings["GoogleMapsApiKey"];
             return View();
         }
 

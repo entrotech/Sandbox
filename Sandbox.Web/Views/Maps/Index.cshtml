@@ -12,7 +12,7 @@
         #map {
             width: 100%;
             height: 100%;
-            min-height: 300px;
+            min-height: 400px;
         }
     </style>
 }
@@ -37,8 +37,8 @@
             </div>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-primary cmdGeocode">Geocode </button>
-            <button type="button" class="btn btn-primary cmdRevGeocode">Reverse Geocode </button>
+            <button type="button" class="btn btn-primary cmdGeocode">Geocode <i class="fa fa-arrow-right"></i> </button>
+            <button type="button" class="btn btn-primary cmdRevGeocode">Reverse Geocode <i class="fa fa-arrow-left"></i></button>
         </div>
         <div class="col-md-5">
             <div>
@@ -55,39 +55,29 @@
     </div>
     <div class="row">
         <pre class="well geocodeResult">
-
         </pre>
     </div>
     <hr />
     <h2>Dynamic Map</h2>
     <div class="row">
-        <div id="map" class="col-md-6">
+        <div id="map" ">
         </div>
-        <div id="pano1" class="col-md-6"></div>
+        @*<div id="pano1" class="col-md-6"></div>*@
     </div>
 
 </div>
 
 @section scripts{
-    <script src="~/Scripts/sabio.js"></script>
+    <script src="~/Scripts/darragh.js"></script>
     <script>
 
-        sabio.page.startUp = function () {
-            $('#cmdGeolocate').on('click', sabio.page.geolocate);
-            $('.cmdGeocode').on('click', sabio.page.geocode);
-            $('.cmdRevGeocode').on('click', sabio.page.reverseGeocode);
+        darragh.page.startUp = function () {
+            $('#cmdGeolocate').on('click', darragh.page.geolocate);
+            $('.cmdGeocode').on('click', darragh.page.geocode);
+            $('.cmdRevGeocode').on('click', darragh.page.reverseGeocode);
         }
 
-        //  sabio.page.locations = [
-        //{ title: 'Park Ave Penthouse', location: { lat: 40.7713024, lng: -73.9632393 } },
-        //{ title: 'Chelsea Loft', location: { lat: 40.7444883, lng: -73.9949465 } },
-        //{ title: 'Union Square Open Floor Plan', location: { lat: 40.7347062, lng: -73.9895759 } },
-        //{ title: 'East Village Hip Studio', location: { lat: 40.7281777, lng: -73.984377 } },
-        //{ title: 'TriBeCa Artsy Bachelor Pad', location: { lat: 40.7195264, lng: -74.0089934 } },
-        //{ title: 'Chinatown Homey Space', location: { lat: 40.7180628, lng: -73.9961237 } }
-        //  ];
-
-        sabio.page.locations = [
+        darragh.page.locations = [
             { title: 'This is where it all happens!', location: { lat: 33.98825, lng: -118.3848 } },
             { title: 'Trimana', location: { lat: 33.988315, lng: -118.384229 } },
             { title: 'Walter', location: { lat: 33.988240, lng: -118.382996 } },
@@ -95,193 +85,193 @@
             { title: '24 Hr. Fitness', location: { lat: 33.987937, lng: -118.36682 } }
         ];
 
-        sabio.page.mapStyleNatural = [
-{
-    "featureType": "administrative",
-    "elementType": "geometry.fill",
-    "stylers": [
-        {
-            "visibility": "off"
-        }
-    ]
-},
-{
-    "featureType": "administrative",
-    "elementType": "geometry.stroke",
-    "stylers": [
-        {
-            "visibility": "on"
-        }
-    ]
-},
-{
-    "featureType": "administrative",
-    "elementType": "labels.text.fill",
-    "stylers": [
-        {
-            "color": "#495421"
-        }
-    ]
-},
-{
-    "featureType": "administrative",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-        {
-            "visibility": "on"
-        },
-        {
-            "weight": 4.1
-        }
-    ]
-},
-{
-    "featureType": "landscape",
-    "elementType": "geometry.fill",
-    "stylers": [
-        {
-            "color": "#daebc6"
-        },
-        {
-            "visibility": "on"
-        }
-    ]
-},
-{
-    "featureType": "landscape.natural.terrain",
-    "elementType": "geometry.fill",
-    "stylers": [
-        {
-            "color": "#cae9c2"
-        }
-    ]
-},
-{
-    "featureType": "poi",
-    "elementType": "geometry.fill",
-    "stylers": [
-        {
-            "color": "#769E72"
-        }
-    ]
-},
-{
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
-        {
-            "color": "#7B8758"
-        }
-    ]
-},
-{
-    "featureType": "poi",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-        {
-            "color": "#ffffff"
-        }
-    ]
-},
-{
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
-        {
-            "visibility": "simplified"
-        },
-        {
-            "color": "#89d88f"
-        }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "geometry.fill",
-    "stylers": [
-        {
-            "color": "#ff0000"
-        }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "labels.text.fill",
-    "stylers": [
-        {
-            "color": "#459945"
-        }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-        {
-            "color": "#ffffff"
-        }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "labels.icon",
-    "stylers": [
-        {
-            "visibility": "off"
-        }
-    ]
-},
-{
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-        {
-            "color": "#ffffff"
-        }
-    ]
-},
-{
-    "featureType": "road.arterial",
-    "elementType": "geometry",
-    "stylers": [
-        {
-            "color": "#eeeeee"
-        }
-    ]
-},
-{
-    "featureType": "road.local",
-    "elementType": "geometry",
-    "stylers": [
-        {
-            "color": "#d8d8d8"
-        }
-    ]
-},
-{
-    "featureType": "transit",
-    "elementType": "all",
-    "stylers": [
-        {
-            "visibility": "off"
-        }
-    ]
-},
-{
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
-        {
-            "visibility": "on"
-        },
-        {
-            "color": "#d2f0ef"
-        }
-    ]
-}
+        darragh.page.mapStyleNatural = [
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#495421"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "weight": 4.1
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#daebc6"
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape.natural.terrain",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#cae9c2"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#769E72"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#7B8758"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi.park",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    },
+                    {
+                        "color": "#89d88f"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#ff0000"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#459945"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels.icon",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#eeeeee"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#d8d8d8"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#d2f0ef"
+                    }
+                ]
+            }
         ];
 
-        sabio.page.mapStyleUltraLight = [
+        darragh.page.mapStyleUltraLight = [
             {
                 "featureType": "water",
                 "elementType": "geometry",
@@ -459,40 +449,40 @@
         ];
 
 
-        sabio.page.map = {};
+        darragh.page.map = {};
         function initMap() {
-            sabio.page.map = new google.maps.Map($('#map')[0], {
+            darragh.page.map = new google.maps.Map($('#map')[0], {
                 center: { lat: 33.98825, lng: -118.3848 },
                 zoom: 18
                 , mapTypeControl: false
-                //, styles: sabio.page.mapStyleNatural
+                //, styles: darragh.page.mapStyleUltraLight
             });
             var markers = [];
             var largeInfoWindow = new google.maps.InfoWindow();
             var bounds = new google.maps.LatLngBounds();
 
-            for (var i = 0; i < sabio.page.locations.length; i++) {
+            for (var i = 0; i < darragh.page.locations.length; i++) {
                 var marker = new google.maps.Marker({
-                    position: sabio.page.locations[i].location,
-                    title: sabio.page.locations[i].title,
+                    position: darragh.page.locations[i].location,
+                    title: darragh.page.locations[i].title,
                     id: i,
                     label: String(i + 1),
-                    map: sabio.page.map,
+                    map: darragh.page.map,
                     animation: google.maps.Animation.DROP
                 })
                 markers.push(marker);
                 bounds.extend(marker.position);
                 marker.addListener('click', function () {
-                    sabio.page.populateInfoWindow(this, largeInfoWindow);
+                    darragh.page.populateInfoWindow(this, largeInfoWindow);
                 })
             }
-            sabio.page.map.fitBounds(bounds);
+            darragh.page.map.fitBounds(bounds);
         }
 
         // This function populates the infowindow when the marker is clicked. We'll only allow
         // one infowindow which will open at the marker that is clicked, and populate based
         // on that markers position.
-        sabio.page.populateInfoWindowUdemy = function (marker, infowindow) {
+        darragh.page.populateInfoWindowUdemy = function (marker, infowindow) {
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
                 // Clear the infowindow content to give the streetview time to load.
@@ -535,7 +525,7 @@
             }
         }
 
-        sabio.page.populateInfoWindow = function (marker, infoWindow) {
+        darragh.page.populateInfoWindow = function (marker, infoWindow) {
             if (infoWindow.marker != marker) {
                 infoWindow.setContent('');
                 infoWindow.marker = marker;
@@ -576,7 +566,7 @@
             }
         }
 
-        sabio.page.geolocate = function () {
+        darragh.page.geolocate = function () {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
@@ -590,7 +580,7 @@
                         var msg = 'Lat: ' + position.coords.latitude
                             + ' Lon: ' + position.coords.longitude;
                         $('#myLocation').text(msg);
-                        sabio.page.map.setCenter(pos);
+                        darragh.page.map.setCenter(pos);
                     },
                     function () {
                         alert("Unable to get position");
@@ -603,7 +593,7 @@
             }
         }
 
-        sabio.page.geocode = function () {
+        darragh.page.geocode = function () {
             var address = $('#locationTextBox').val();
             if (address) {
                 var geocoder = new google.maps.Geocoder();
@@ -625,7 +615,7 @@
             }
         }
 
-        sabio.page.reverseGeocode = function () {
+        darragh.page.reverseGeocode = function () {
             var latitude = $('#latitudeTextBox').val();
             var longitude = $('#longitudeTextBox').val();
             var latlng = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
