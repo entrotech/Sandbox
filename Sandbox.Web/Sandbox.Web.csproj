@@ -324,6 +324,7 @@
     <Content Include="404.aspx" />
     <Content Include="404.html" />
     <Content Include="App\Services\PogService.js" />
+    <Content Include="App_Data\sandbox.sql" />
     <Content Include="Content\angular-toastr.css" />
     <Content Include="Content\angular-toastr.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1271,7 +1272,6 @@
   <ItemGroup>
     <Folder Include="App\Directives\" />
     <Folder Include="App\Pogs\" />
-    <Folder Include="App_Data\" />
     <Folder Include="Content\bootstrap\mixins\" />
     <Folder Include="Scripts\app\controllers\" />
     <Folder Include="Scripts\app\services\" />
