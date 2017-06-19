@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "Blackjack";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Blackjack</h2>
+<div class="well">
+    <p>This example is under construction.</p>
+</div>
+@section styles{
+    <style>
+        .playingCard {
+            font-size: 24px;
+            padding: 4px;
+            border: 1px solid gray;
+            text-align: center
+        }
+    </style>
+}
+
+<h2>Deck</h2>
+<div class="container">
+    <h2>Deck</h2>
+    <div class="deck-container row"></div>
+
+    <h2>Draw from Shoe</h2>
+
+    <button type="button" class="draw-button">Draw</button>
+    <div class="shoe-container row">
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-2.2.4.js"></script>
+
+    <script>
+
+        darragh.page.startUp = function () {
+            darragh.deck = new darragh.Deck();
+            darragh.showDeck(darragh.deck.cards);
+
+            darragh.shoe = new darragh.Shoe(5);
+
+            $('.draw-button').on('click', darragh.onDraw);
+        };
+
+        darragh.onDraw = function (evt) {
+            evt.preventDefault();
+            var card = darragh.shoe.draw();
+            darragh.renderDraw(card);
+
+        }
+
+        darragh.renderDraw = function (card) {
+            $('.shoe-container').append(darragh.getCardElement(card));
+        }
+
+        darragh.getCardElement = function (card) {
+            var suitElement
+            switch (card.suit) {
+                case 'H':
+                    suitElement = '<span style="color: red;">&hearts;</span>';
+                    break;
+                case 'D':
+                    suitElement = '<span style="color: red;">&diams;</span>';
+                    break;
+                case 'C':
+                    suitElement = '<span style="color: black;">&clubs;</span>';
+                    break;
+                case 'S':
+                    suitElement = '<span style="color: black;">&spades;</span>';
+            }
+            return '<div class="col-xs-3 col-sm-1 playingCard" >' + card.rank + suitElement + '</div>';
+        }
+
+        darragh.showDeck = function (cards) {
+            for (var c = 0; c < cards.length; c++) {
+                $('.deck-container').append(darragh.getCardElement(cards[c]));
+            }
+        }
+
+        darragh.shuffle = function (cards) {
+            var shuffledCards = [];
+            var numberOfCards = cards.length;
+            var index = null;
+            for (cardsLeft = numberOfCards; cardsLeft > 0; cardsLeft--) {
+                // Select a card to draw from cards
+                index = Math.floor(Math.random() * cardsLeft);
+                // Remove it from cards
+                var selectedCards = cards.splice(index, 1);
+                if (selectedCards.length == 0) {
+
+                    console.log(index);
+                }
+                // Insert to shuffled
+                shuffledCards.push(selectedCards[0]);
+            }
+            return shuffledCards;
+        }
+
+        darragh.suits = [{ code: 'H', name: 'Hearts' }
+            , { code: 'D', name: 'Diamonds' }
+            , { code: 'S', name: 'Spades' }
+            , { code: 'C', name: 'Clubs' }];
+
+        darragh.ranks = [
+            { code: 'A', values: [11, 1] }
+            , { code: '2', values: [2] }
+            , { code: '3', values: [3] }
+            , { code: '4', values: [4] }
+            , { code: '5', values: [5] }
+            , { code: '6', values: [6] }
+            , { code: '7', values: [7] }
+            , { code: '8', values: [8] }
+            , { code: '9', values: [9] }
+            , { code: '10', values: [10] }
+            , { code: 'J', values: [11] }
+            , { code: 'Q', values: [12] }
+            , { code: 'K', values: [13] }
+        ];
+
+        darragh.Deck = function (noShuffle) {
+            var cards = [];
+            for (s = 0; s < darragh.suits.length; s++) {
+                for (r = 0; r < darragh.ranks.length; r++) {;
+                    cards.push({ suit: darragh.suits[s].code, rank: darragh.ranks[r].code })
+                }
+            }
+            if (!noShuffle) {
+                cards = darragh.shuffle(cards);
+            }
+            this.cards = cards;
+        }
+
+        darragh.Shoe = function (numberOfDecks) {
+            this.cards = [];
+
+            this.penetrationPercent = 25;
+            this.penetrationCount = 0;
+
+
+            this.reset = function () {
+                var deck
+                for (i = 0; i < numberOfDecks; i++) {
+                    deck = new darragh.Deck(false);
+                    this.cards = this.cards.concat(deck.cards);
+                }
+                this.cards = darragh.shuffle(this.cards);
+                this.penetrationCount = this.penetrationPercent / 100.0 * this.cards.length;
+
+            }
+
+            this.draw = function () {
+                if (this.cards.length > this.penetrationCount) {
+                    return this.cards.splice(this.cards.length - 1, 1)[0];
+                }
+                else {
+                    this.reset();
+                    return this.draw();
+                }
+            }
+
+        }
+
+    </script>
+
+
+}
+

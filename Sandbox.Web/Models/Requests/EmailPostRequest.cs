@@ -9,11 +9,12 @@ namespace Sandbox.Web.Models.Requests
         [StringLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [EmailAddress]
         public string Email { get; set; }
 
-        [EmailAddress]
+        
+        [Required]
+        [StringLength(100)]
         public string Website { get; set; }
 
         [StringLength(4000)]

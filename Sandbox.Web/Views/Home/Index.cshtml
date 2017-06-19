@@ -2,34 +2,42 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<h2>John Darragh's Sandbox Application</h2>
+
+<div class="section">
+    <h4>Purpose</h4>
+    <p class="well well-lg">
+        This application is my personal sandbox, i.e., a place where I experiment with various web development libraries and
+        techniques.
+    </p>
+</div>
+<div class="section">
+    <h4>Installation Instructions</h4>
+    <p>
+        The application is published to my public GitHub repository for you to download/clone. However, it uses several
+        of my personal API keys, etc. so I had to use a technique outlined
+        <a href="http//johnatten.com/2014/04/06/asp-net-mvc-keep-private-settings-out-of-source-control/"> here </a>
+        to keep my API keys out of the publicly-accessible repository. The web.config file has the keys that the
+        application uses commented out, so you can see what ones might be needed.  You can then either create your own
+        PrivateSettings.config file or simply uncomment the app settings you need in the web.config file and
+        fill in your own credentials.
+    </p>
+    <p>
+        Many parts of the application use a Microsoft SQL Server database with pre-populated sample data.
+        To install the database, create a database called Sandbox on the MS SQL Server instance you want to use,
+        then add a connection string to the web.config file. Alternatively, you could put the connection string in
+        a separate ConnectionStrings.config file as I have done (similar to the above for the app settings). The 
+        /App_Data/sandbox.sql script can then be run in SQL Server Management Studio in a query window on your
+        new database and run to create the entire database, with sample data to get started.
+    </p>
+</div>
 
 @section styles{
-    
-    }
-<table class="table table-striped table-responsive">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <td>Phone</td>
-            <td>Email</td>
-        </tr>
-    </thead>
-    <tbody>
 
-        @foreach (Sandbox.Web.Data.Pog p in @Model)
-        {
-            <tr>
-                <td>@p.Id</td>
-                <td>@p.Name</td>
-                <td>@p.Phone</td>
-                <td>@p.Email</td>
-            </tr>
-        }
-    </tbody>
-</table>
+}
+
 
 @section scripts{
-    
-    
-    }
+
+
+}

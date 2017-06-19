@@ -260,6 +260,8 @@
     <Compile Include="Classes\ServiceConfig.cs" />
     <Compile Include="Classes\SiteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Angular1Controller.cs" />
+    <Compile Include="Controllers\Api\PogTypesApiController.cs" />
     <Compile Include="Controllers\Api\SmsApiController.cs" />
     <Compile Include="Controllers\Api\EmailApiController.cs" />
     <Compile Include="Controllers\Api\PogsApiController.cs" />
@@ -275,7 +277,10 @@
     <Compile Include="Controllers\PogsController.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\PogFile.cs" />
+    <Compile Include="Domain\PogType.cs" />
     <Compile Include="Models\Requests\PogSearchRequest.cs" />
+    <Compile Include="Models\Requests\PogTypeAddRequest.cs" />
+    <Compile Include="Models\Requests\PogTypeUpdateRequest.cs" />
     <Compile Include="Models\Requests\SmsPostRequest.cs" />
     <Compile Include="Models\Requests\EmailPostRequest.cs" />
     <Compile Include="Models\Requests\PogPostRequest.cs" />
@@ -313,6 +318,7 @@
     </Compile>
     <Compile Include="Services\Interfaces\ISmsService.cs" />
     <Compile Include="Services\PogService.cs" />
+    <Compile Include="Services\PogTypeService.cs" />
     <Compile Include="Services\SmsService.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="Settings.cs" />
@@ -391,6 +397,8 @@
     <Content Include="Scripts\app\filters\paginate.js" />
     <Content Include="Scripts\app\filters\tel.js" />
     <Content Include="Scripts\app\pog\pog.service.js" />
+    <Content Include="Scripts\app\pog\pogView.html" />
+    <Content Include="Scripts\app\services\pogType.service.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1170,6 +1178,7 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="Scripts\app\services\alert.service.js" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
@@ -1208,6 +1217,7 @@
     <Content Include="Scripts\sabio\core\services\baseHttp.service.js" />
     <Content Include="Scripts\sabio\core\services\systemEvent.service.js" />
     <Content Include="Scripts\darragh\darragh.module.js" />
+    <Content Include="Scripts\darragh.services.pogType.js" />
     <Content Include="Scripts\select.js" />
     <Content Include="Scripts\select.min.js" />
     <Content Include="Scripts\toastr.js" />
@@ -1268,13 +1278,22 @@
     <Content Include="Views\Home\Sms.cshtml" />
     <Content Include="Views\JQuery\MatchHeight.cshtml" />
     <Content Include="Views\Pogs\MatchHeight.cshtml" />
+    <Content Include="Views\Angular1\ComponentDemo.cshtml" />
+    <Content Include="Views\Pogs\ManageComponent.cshtml" />
+    <Content Include="Views\Angular1\Ng1.cshtml" />
+    <Content Include="Views\Angular1\Ng2.cshtml" />
+    <Content Include="Views\Angular1\Ng3.cshtml" />
+    <Content Include="Views\Shared\_LayoutNg.cshtml" />
+    <Content Include="Views\Angular1\Ng4.cshtml" />
+    <Content Include="Views\Shared\Partials\_Navbar.cshtml" />
+    <Content Include="Views\Shared\Partials\_LoginPartial.cshtml" />
+    <Content Include="Views\JQuery\Blackjack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Directives\" />
     <Folder Include="App\Pogs\" />
     <Folder Include="Content\bootstrap\mixins\" />
     <Folder Include="Scripts\app\controllers\" />
-    <Folder Include="Scripts\app\services\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

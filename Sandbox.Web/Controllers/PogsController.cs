@@ -23,6 +23,11 @@ namespace Sandbox.Web.Controllers
             return View();
         }
 
+        public ActionResult ManageComponent()
+        {
+            return View();
+        }
+
         public ActionResult MatchHeight()
         {
             return View();

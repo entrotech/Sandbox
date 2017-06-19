@@ -1,0 +1,11 @@
+﻿
+<div>
+    <div class="product-name ccVm-edit"> {{ccVm.pog.name}}</div>
+    <div><i class="fa fa-envelope fa-fw"></i><span class="m-l-sm text-muted">{{ccVm.pog.email}}</span></div>
+    <div><i class="fa fa-phone fa-fw"></i><span class="m-l-sm text-muted">{{ccVm.pog.phone | tel}}</span></div>
+    <div><i class="fa fa-clock-o fa-fw"></i>UTC: <span>{{ccVm.pog.whenInstant}}</span></div>
+    <div><i class="fa fa-calendar-o fa-fw"></i>Local: <span>{{ccVm.pog.whenLocalDateTime}}</span></div>
+    <div class="row">
+        <div class="small m-t-xs col-md-6">{{ccVm.pog.description}}</div>
+    </div>
+</div>

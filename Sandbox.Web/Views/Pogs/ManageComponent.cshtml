@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Ng4";
+    ViewBag.Title = "Components";
     Layout = "~/Views/Shared/_LayoutNg.cshtml";
 }
 <div class="row">
@@ -86,6 +86,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Create / Edit Pog</div>
                 <div class="panel-body col-md-12">
+                    <div class="well well-sm">
+                        <pog-component pog="pogsVm.selectedItem"></pog-component>
+                    </div>
                     <div>
                         <form role="form" id="editForm" name='pogsVm.editForm' ng-submit="pogsVm.cancelChanges()" novalidate>
                             <div class="form-group" id="first">
@@ -180,6 +183,7 @@
                                     </span>
                                 </div>
                             </div>
+                            @*<div moment-picker="pogsVm.selectedItem.whenLocalDateTime">{{pogsVm.selectedItem.whenLocalDateTime}}</div>*@
                             <div class="form-group">
                                 <label>DateTime Offset:</label>
                                 <div class="input-group">
@@ -202,6 +206,8 @@
 </div>
 
 @section styles{
+
+    <link href="~/Scripts/ng/toastr/angular-toastr.css" rel="stylesheet" />
     <link href="~/Scripts/ng/angular-moment-picker/angular-moment-picker.css" rel="stylesheet" />
 }
 
@@ -211,22 +217,50 @@
 
 @section pageInitScripts{
     <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/darragh.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/angular-toastr.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
 
     <script src="~/Scripts/ng/angular-moment-picker/angular-moment-picker.js"></script>
     <script>
         darragh.moduleOptions.extraModuleDependencies.push('moment-picker');
     </script>
+    <script src="~/Scripts/darragh/darragh.module.js"></script>
+
+
 }
 
 @section scripts{
     <script src="~/Scripts/app/filters/tel.js"></script>
     <script src="~/Scripts/darragh.services.pog.js"></script>
 
-    @*Angular scripts*@
     <script src="~/Scripts/app/pog/pog.service.js"></script>
     <script src="~/Scripts/app/pog/pog.controller.js"></script>
-    <script src="~/Scripts/app/controllers/pog.js"></script>
+
+    <script>
+
+        (function () {
+            angular.module(APPNAME)
+                .component('pogComponent', {
+                    bindings: {
+                        pog: '<'
+                    },
+                    controller: function () {
+                        var vm = this;
+                    },
+                    controllerAs: 'ccVm',
+                    templateUrl: '/Scripts/app/pog/pogView.html'
+                }
+            );
+        })();
+
+    </script>
 
 }
 

@@ -1,0 +1,282 @@
+﻿@{
+    ViewBag.Title = "Ng4";
+    Layout = "~/Views/Shared/_LayoutNg.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/angular-toastr.min.css" rel="stylesheet" />
+}
+
+<h2>Angular Example 4</h2>
+
+<div>
+    <div ng-controller='exController as exVm' class="row">
+        <div class="col-md-12">
+            <p>In this example, we modify Example 3 to move common angular setup stuff into separate javascript files.</p>
+            <p>
+                This example builds upon Example 3 by switching to the _LayoutNg.cshtml, which includes our
+                most commonly used css and js files in the layout to set up angular in a consistent way.
+                It is helpful to know that:
+            </p>
+            <ul>
+                <li>
+                    The ng-app directive is included in the _LayoutNg.cshtml layout and names the module "darraghApp",
+                    so we should remove the ng-app directive that we used in Ex 3.
+                </li>
+                <li>
+                    The angular module creation is moved to darragh.module.js at about line 13. All the
+                    pre-requisites for angular module creation must appear before this in the constructed
+                    HTML file, so we can remove the module creation IIFE from the page.
+                </li>
+                <li>
+                    A global variable APPNAME is declared in _LayoutNg.cshtml as well.
+                    On line 13 of darragh.js, this is used to set the darragh.moduleOptions.APPNAME
+                    property, which, in turn, is used when creating the module as the module name.
+                    When you need to reference the module name for registering services, etc.
+                    use the APPNAME variable.
+                </li>
+                <li>
+                    The darragh.module.js file also defines a set of default module dependencies
+                    that are commonly used on many pages, so we do not need to worry about module
+                    dependencies for this (and a few other modules).
+                </li>
+                <li>
+                    When we create angular controllers, we will "inherit" from a base controller,
+                    which gives us access to commonly used services,
+                    such as the $alertService. Consequently, we do not need to explicitly set up
+                    DI for the services $alertService and $window.
+                </li>
+                <li>
+                    From this page, it is relatively straightforward to go to the
+                    /example/index page described in Angular Video #1.  That video explains
+                    just a few additional Sabio things, but presents a less complete
+                    editing experience than provided here.
+                </li>
+            </ul>
+            <p>
+                <button type="button" data-ng-click="exVm.goHome()">Go to Home Page</button>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="h4">Pog Types</span>
+                    <button type="button" class="btn btn-primary btn-xs pull-right " data-ng-click="exVm.add()">Add New Pog Type</button>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li data-ng-repeat="item in exVm.items">
+                            <a ng-click="exVm.select(item)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" ng-show="exVm.item">
+                <div class="panel-heading">
+                    <span class="h4">Create / Edit Pog Type</span>
+                </div>
+                <div class="panel-body" style="margin-left: 15px; margin-right: 15px;">
+                    <form name="editForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label>Id: </label><span ng-bind="exVm.item.id | uppercase"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input type="text" class="form-control" ng-model="exVm.item.code" />
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="exVm.item.name" />
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="exVm.item.inactive" />Inactive
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Display Order</label>
+                            <input type="number" class="form-control" ng-model="exVm.item.displayOrder" />
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="exVm.save()">Save</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="exVm.cancel()">Cancel</button>
+                        <button type="button" class="btn btn-warning btn-sm" ng-click="exVm.delete()">Delete</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageInitScripts{
+
+}
+
+@section scripts {
+    <script src="~/Scripts/app/services/alert.service.js"></script>
+    <script src="/Scripts/darragh.services.pogType.js"></script>
+    <script src="~/Scripts/app/services/pogType.service.js"></script>
+
+    <script>
+
+        (function () {
+            "use strict";
+            angular.module(APPNAME)
+            .controller('exController', ExController);
+
+            // Inject services that our controller depends upon
+            ExController.$inject = ['$scope', '$window', '$alertService', 'pogTypeService']
+
+            function ExController($scope, $window, $alertService, pogTypeService) {
+                // Administrative stuff
+                var vm = this;
+                // $scope is the js object that the DOM watches and the controller applies changes to.
+                // We need to keep a referencee to it, so AJAX callback fns can $apply changes to
+                // update the $scope where the COM can watch changes.
+                vm.$scope = $scope;
+                vm.$window = $window;
+                vm.pogTypeService = pogTypeService;
+                vm.alertService = $alertService;
+
+                // ViewModel
+                vm.goHome = _goHome;
+                vm.items = [];
+                vm.item = null;  // copy of item being edited
+                vm.itemIndex = -1; // index of item being edited
+                vm.select = _select;
+                vm.save = _save;
+                vm.cancel = _cancel;
+                vm.add = _add;
+                vm.delete = _delete;
+
+                // "The fold"
+
+                _render();
+
+                function _render() {
+                    vm.pogTypeService.getAll(_getAllSuccess, _getAllError);
+                }
+
+                function _goHome() {
+                    vm.$window.location.href = '/';
+                }
+
+                function _getAllSuccess(data) {
+                    vm.$scope.$apply(function () {
+                        vm.items = data.items;
+                    });
+                    vm.alertService.success("Retrieved all");
+                }
+
+                function _getAllError(jqXHR) {
+                    vm.alertService.error(jqXHR.responseText, "GetAll failed");
+                }
+
+                function _select(foo) {
+                    // Keep track of the position in vm.items of
+                    // the item we will be editing
+                    vm.itemIndex = vm.items.indexOf(foo);
+                    // get a fresh copy of the object to be edited from the database.
+                    vm.pogTypeService.getById(foo.id, _getByIdSuccess, _getByIdError)
+                }
+
+                function _getByIdSuccess(data) {
+                    if (data.item) {
+                        vm.$scope.$apply(function () {
+                            vm.item = data.item;
+                        });
+                    }
+                    vm.alertService.success("Retrieved item for editing from database");
+                }
+
+                function _getByIdError(jqXHR) {
+                    vm.alertService.error(jqXHR.responseText, "GetById failed");
+                }
+
+                // create a new empty item
+                function _add() {
+                    // Changing item from null to empty object indicates any
+                    // ui components for editing should be shown
+                    vm.item = {};
+                    vm.itemIndex = -1;
+                }
+
+                function _cancel() {
+                    _endEdit();
+                }
+
+                function _endEdit() {
+                    vm.item = null;
+                    vm.itemIndex = -1;
+                }
+
+                function _save() {
+                    if (vm.item.id) {
+                        vm.pogTypeService.put(vm.item.id, vm.item, _putSuccess, _putError);
+                    }
+                    else {
+                        vm.pogTypeService.post(vm.item, _postSuccess, _postError);
+                    }
+                }
+
+                function _putSuccess(data) {
+                    vm.$scope.$apply(function () {
+                        // To update UI, replace with new version
+                        vm.items[vm.itemIndex] = vm.item;
+                        _endEdit();
+                        vm.alertService.success("Update successful");
+                    });
+                }
+
+                function _putError(jqXHR) {
+                    vm.alertService.error(jqXHR.responseText, "Update failed");
+                }
+
+                function _postSuccess(data) {
+                    if (data.item) {
+                        vm.$scope.$apply(function () {
+                            // To update UI, get id from data
+                            vm.item.id = data.item;
+                            vm.items.push(vm.item);
+                            _endEdit();
+                            vm.alertService.success("Insert successful");
+                        });
+                    }
+                }
+
+                function _postError(jqXHR) {
+                    vm.alertService.error(jqXHR.responseText, "Insert failed");
+                }
+
+                function _delete() {
+                    if (vm.item.id) {
+                        vm.pogTypeService.delete(vm.item.id, _deleteSuccess, _deleteError);
+                    }
+                }
+
+                function _deleteSuccess(data) {
+                    vm.$scope.$apply(function () {
+                        // To update UI, replace with new version
+                        vm.items.splice(vm.itemIndex, 1);
+                        _endEdit();
+                        vm.alertService.success("Delete successful");
+                    });
+                }
+
+                function _deleteError(jqXHR) {
+                    vm.alertService.error(jqXHR.responseText, "Delete failed");
+                }
+            }
+
+        })();
+
+    </script>
+}
+
+
+
+
+
+

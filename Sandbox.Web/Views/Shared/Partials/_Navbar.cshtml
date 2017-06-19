@@ -1,0 +1,71 @@
+﻿<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img alt="Brand" src="~/Images/EntrotechIcon.png" class="navbarLogo" />
+            </a>
+        </div>
+    </div>
+    <div class="container container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Sandbox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Basic<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/Configuration/Index">Configuration</a></li>
+                        <li><a href="/Home/InternalServerError">Throw Application Exception</a></li>
+                        <li><a href="/Maps/Index">Maps</a></li>
+                        <li><a href="/Maps/Udemy">Maps - Udemy</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">MVC<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Mvc/Email">Send Email</a></li>
+                        <li><a href="/Mvc/Sms">Send SMS</a></li>
+                        <li><a href="/Mvc/Index">Pogs List</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">jQuery<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Messages/Email">Send Email (JQ)</a></li>
+                        <li><a href="/Messages/Sms">Send SMS (JQ)</a></li>
+                        <li><a href="/jQuery/Index">Pogs List</a></li>
+                        <li><a href="/jQuery/MatchHeight">Match Height</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Angular1<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Angular1/Ng1">Example 1</a></li>
+                        <li><a href="/Angular1/Ng2">Example 2</a></li>
+                        <li><a href="/Angular1/Ng3">Example 3</a></li>
+                        <li><a href="/Angular1/Ng4">Example 4</a></li>
+
+                        <li><a href="/Pogs/Index">Pogs List</a></li>
+                        <li><a href="/Pogs/Manage">Pogs Manage</a></li>
+                        <li><a href="/Pogs/MatchHeight">Match Height</a></li>
+
+                    </ul>
+                </li>
+                @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+
+
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>

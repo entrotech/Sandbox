@@ -4,19 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sandbox</title>
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-   
     <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <link href="~/Content/angular-toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+        @Scripts.Render("~/bundles/modernizr")
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     @RenderSection("styles", required: false)
 
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body ng-app="darraghApp">
     @Html.Partial("~/Views/Shared/Partials/_Navbar.cshtml")
-    
-    <div class="container container-fluid body-content">
+    <div class="container container-fluid body-content" data-ng-app="darraghApp">
         @RenderBody()
         <hr />
     </div>
@@ -29,14 +31,21 @@
     </script>
     <script src="~/Scripts/jquery-2.2.4.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/toastr.min.js"></script>
     <script src="~/Scripts/respond.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-toastr.min.js"></script>
+    <script src="~/Scripts/angular-toastr.tpls.min.js"></script>
 
     <script src="~/Scripts/darragh.js"></script>
 
     @RenderSection("pageInitScripts", required: false)
 
-    @* Angular includes would go here *@
+    <script src="~/Scripts/darragh/darragh.module.js"></script>
 
     @RenderSection("scripts", required: false)
 

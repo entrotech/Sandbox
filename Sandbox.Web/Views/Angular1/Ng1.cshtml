@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Ng1";
+}
+
+<h2>Angular Example 1</h2>
+
+<div data-ng-app="darraghApp">
+    <div ng-controller='exController as exVm'>
+        <p>{{exVm.myMessage}}</p> @*One way data binding (declarative style)*@
+        <button type="button" data-ng-click="exVm.changeMessage()">Click Me</button>
+        <p>
+            This example demonstates and explains the basics of properly setting up an
+            angular controller.
+        </p>
+    </div>
+</div>
+
+@section pageInitScripts{
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/darragh.js"></script>
+}
+
+@section scripts {
+    <script>
+
+        // Calling angular.module with two args instantiates ("sets") a new
+        // module and registers it with angular's "IOC container".
+        // When angular processes the ng-app directive, it will
+        // create the registered module.
+        // To later "get" a reference to this module, we can call the
+        // module method with a single argument (the name of the module)
+        // to get a reference to the existing module.
+        // [Y021] Though the module method does return a reference to the module
+        // object, and you will see this in some examples, this is not
+        // needed or recommended, since it pollutes the global namespace.
+        // [Y023] Only set a module once, but get as often as needed.
+        //References To John Papa Guide Below
+        //https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+        angular.module(APPNAME, []);
+
+        // We register a controller with angular by first
+        // getting the module as described above, then calling
+        // the controller method, where we specifiy the controller
+        // name and pass it a constructor function. When angular
+        // processes an HTML template and encounters an ng-controller
+        // directive with a matching controller name, angular will
+        // call the constructor function to create an instance of the
+        // controller and bind it to the DOM where the directive occurred.
+        // [Y024] Though many examples will use in-line anonymous
+        // functions, use named constructor functions instead, since they
+        // reduce the nesting of your code, are easier to read, and
+        // prevent problems that can be introduced during code minification.
+        angular.module(APPNAME)
+            .controller('exController', ExController);
+
+        function ExController() {
+            // Use a "capture variable" vm, which stands for ViewModel
+            // [Y032] The this keyword is contextual and when used within
+            // a function inside a controller may change its context. Capturing
+            // the context of "this" avoids this problem. Any properties
+            // added to the vm object will be bindable to the DOM using
+            // directives.
+            // [Y031] use vm instead of $scope to reference the scope. You may
+            // still need to use $scope occasionally (e.g. for $emit, $broadcast fns).
+            var vm = this;
+
+            // Define the various properties and methods that
+            // you want to be able to access from the DOM, by
+            // adding properties to the vm (i.e., the controller).
+            vm.myMessage = "Angular is rendering on the page";
+            vm.changeMessage = _changeMessage;
+
+            // "The fold". [Y033] Place bindable members the top of the controller,
+            // and define detailed functionality in named functions below.
+            // This makes it easier for developers looking at the code to
+            // find the "public" properties that comprise the viewmodel without
+            // having to dig through the  implementation details. If the
+            // controller was written on paper, the public interface should be
+            // above where you might fold the page in half vertically.
+
+            // [Y034] Implement behaviors as named functions preceded with an underscore
+            // as an indication that they are "private". These will be hoisted
+            // by the JavaScript interpreter to the top of the constructor function,
+            // so they are accessible to bindable property definitions, but still
+            // appear out of the way below the fold.
+            function _changeMessage() {
+                vm.myMessage = "Changed my message with a click";
+            }
+
+        }
+
+    </script>
+
+
+}
+
+
+
+
+

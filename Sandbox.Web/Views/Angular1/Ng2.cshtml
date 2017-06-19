@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "Ng0";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Angular Example 2</h2>
+
+<div data-ng-app="myApp">
+    <div ng-controller='exController as exVm' class="row">
+        <div class="col-md-12">
+            <p>
+                This example builds upon the previous example by:
+            </p>
+            <ul>
+                <li>Encapsulating angular components in IIFEs.</li>
+                <li>Demonstrating ng-repeat to replace jQuery micro-templating</li>
+                <li>Using ng-show to conditionally show parts of the UI</li>
+                <li>Using Two-way data binding with ng-model</li>
+                <li>Showing one pattern for editing an array of javascript object on a single page.</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="h4">Stooges</span>
+                    <button type="button" class="btn btn-primary btn-xs pull-right " data-ng-click="exVm.add()">Add New Stooge</button>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li data-ng-repeat="item in exVm.items"> @*IMPORTANT! similar to a for-loop*@
+                            {{item.id}} <a ng-click="exVm.select(item)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" ng-show="exVm.item">
+                <div class="panel-heading">
+                    <span class="h4">Create / Edit Stooge</span>
+                </div>
+                <div class="panel-body" style="margin-left: 15px; margin-right: 15px;">
+                    <form name="editForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input type="number" class="form-control" ng-model="exVm.item.id" />
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="exVm.item.name" />
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="exVm.save()">Save</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="exVm.cancel()">Cancel</button>
+                        <button type="button" class="btn btn-warning btn-sm" ng-click="exVm.delete()">Delete</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageInitScripts{
+    <script src="/Scripts/angular.js"></script>
+}
+
+@section scripts {
+    <script>
+
+        (function () {
+            angular.module(APPNAME, []);
+        })();
+
+        // [Y010] By encapsulating the controller registration in
+        // an IIFE, the constructor function is no longer
+        // in the global namespace, which would potentially
+        // create naming collisions and other havoc.
+        (function () {
+            "use strict";
+            angular.module(APPNAME)
+            .controller('exController', ExController);
+
+            function ExController() {
+                // Administrative stuff
+                var vm = this;
+
+                // ViewModel
+                vm.items = [
+                    { id: 3, name: "Larry" },
+                    { id: 17, name: "Curly" },
+                    { id: 12, name: "Moe" }
+                ];
+                vm.item = null;  // copy of item being edited
+                vm.itemIndex = -1; // index of item being edited
+                vm.select = _select;
+                vm.save = _save;
+                vm.cancel = _cancel;
+                vm.add = _add;
+                vm.delete = _delete;
+
+                // "The fold"
+
+                function _select(foo) {
+                    // Keep track of the position in vm.items of
+                    // the item we will be editing
+                    vm.itemIndex = vm.items.indexOf(foo);
+                    // create a copy of the item for editing
+                    vm.item = Object.assign({}, foo);
+                }
+
+                function _save() {
+                    if (typeof vm.itemIndex === 'number' && vm.itemIndex >= 0) {
+                        // for update, replace with new version
+                        vm.items[vm.itemIndex] = vm.item;
+                    }
+                    else {
+                        // for insert, just push to vm.items
+                        vm.items.push(vm.item);
+                    }
+                    _endEdit();
+                }
+
+                function _cancel() {
+                    _endEdit();
+                }
+
+                // create a new empty item
+                function _add() {
+                    // Changing item from null to empty object indicates any
+                    // ui components for editing should be shown
+                    vm.item = {};
+                    vm.itemIndex = -1;
+                }
+
+                function _endEdit() { //hides form
+                    vm.item = null;
+                    vm.itemIndex = -1;
+                }
+
+                function _delete() {
+                    if (typeof vm.itemIndex === 'number' && vm.itemIndex >= 0) {
+                        // for delete, remove item from array
+                        vm.items.splice(vm.itemIndex, 1);
+                        _endEdit();
+                    }
+                }
+            }
+
+        })();
+
+
+
+    </script>
+}
+
+
+
+
+
+

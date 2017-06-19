@@ -6,8 +6,9 @@
         'ui.bootstrap',
         'ngRoute',
         'ngAnimate',
-        'toastr',
-        'moment-picker'
+        'toastr'
+        //,
+        //'moment-picker'
     ];
 
     var arrOfDep = getModuleDependencies(moduleOptions, defaultDependencies);

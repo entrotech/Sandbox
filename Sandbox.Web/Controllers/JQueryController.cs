@@ -18,5 +18,10 @@ namespace Sandbox.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Blackjack()
+        {
+            return View();
+        }
     }
 }
