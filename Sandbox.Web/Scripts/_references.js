@@ -27,6 +27,7 @@
 /// <reference path="app/pog/pog.service.js" />
 /// <reference path="app/services/alert.service.js" />
 /// <reference path="app/services/pogtype.service.js" />
+/// <reference path="app/ui-router/stooge-controller.js" />
 /// <reference path="bootstrap.js" />
 /// <reference path="bootstrap-datetimepicker.min.js" />
 /// <reference path="darragh.js" />

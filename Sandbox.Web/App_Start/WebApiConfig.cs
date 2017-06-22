@@ -23,9 +23,9 @@ namespace Sandbox.Web
             );
 
 
-            //Sabio: we remove the xml serilizer to make life easier. 
-            MediaTypeHeaderValue appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
-            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+            ////Sabio: we remove the xml serilizer to make life easier. 
+            //MediaTypeHeaderValue appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            //config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
 

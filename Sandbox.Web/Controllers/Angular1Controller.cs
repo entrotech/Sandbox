@@ -33,5 +33,10 @@ namespace Sandbox.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult UiRoute()
+        {
+            return View();
+        }
     }
 }

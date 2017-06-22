@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "UiRoute";
+    Layout = "~/Views/Shared/_LayoutNg.cshtml";
+}
+
+<h2>UI Route</h2>
+
+<div class="container">
+    <div class="row">
+        <ul class="nav nav-pills">
+            <li><a ui-sref="home">Home</a></li>
+            <li><a ui-sref="list">List</a></li>
+        </ul>
+    </div>
+
+    <div ui-view></div>
+</div>
+
+@section pageInitScripts{
+    <script src="~/Scripts/angular-ui-router.min.js"></script>
+    <script>
+        darragh.moduleOptions.extraModuleDependencies.push('ui.router');
+    </script>
+}
+
+@section scripts{
+    <script src="~/Scripts/app/ui-router/stooge-controller.js"></script>
+    <script>
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+            .config(ExampleConfig);
+            
+            ExampleConfig.$inject = ['$stateProvider'];
+
+            function ExampleConfig($stateProvider) {
+                var homeState = {
+                    name: 'home',
+                    url: '/home',
+                    templateUrl: '/Scripts/app/ui-router/home.html'
+                };
+
+                var listState = {
+                    name: 'list',
+                    url: '/list',
+                    templateUrl: '/Scripts/app/ui-router/stooge-list.html',
+                    controller: 'stoogeController',
+                    controllerAs: 'stoogeVm'
+                };
+
+                $stateProvider.state(homeState);
+                $stateProvider.state(listState);
+            }
+
+        })();
+    </script>
+
+}
